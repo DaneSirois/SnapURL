@@ -144,6 +144,7 @@ button:focus {
 
       .navbar__nav__item--userURLs {
         border-right: 0px;
+        border-left: 0px;
         background: none;
       }
 
@@ -271,7 +272,7 @@ button:focus {
       bottom: 0px;
       left: 0px;
     display: none;
-    padding: 145px 16px;
+    padding: 155px 16px;
   }
 
   .auth__login__container input, .auth__signup__container input { /* <input> */
@@ -283,6 +284,7 @@ button:focus {
     margin-bottom: 6px;
     padding: 0px 10px;
 
+    background-color: white;
     border-radius: 4px;
     border: 1px solid black;
   }
@@ -505,9 +507,101 @@ button:focus {
       border: 1px solid black;
     }
 
+/* ====================== userURLs Page ====================== */
+
+  .usersURLs__container { /* <main> */ 
+    position: relative;
+    margin: 42px auto 0px;
+    padding: 20px;
+    max-width: 550px;
+    width: 100%;
+  }
+
+  .usersURLs__urls { /* <ol> */ 
+    counter-reset:li;
+    margin-left: 0px;
+    padding: 0px;
+  }
+
+  .usersURLs__urls li { /* <li> */ 
+    position: relative;
+    list-style: none;
+
+    width: 100%;
+    padding: 20px 20px 52px;
+    margin: 10px 0px;
+    border: 1px solid black;
+  }
+
+  .usersURLs__urls li:before {
+    content:counter(li); /* Use the counter as content */
+    counter-increment:li; /* Increment the counter by 1 */
+    /* Position and style the number */
+    position:absolute;
+      top: -1px;
+      left: -33px;
+      bottom: -1px;
+
+    -moz-box-sizing:border-box;
+    -webkit-box-sizing:border-box;
+    box-sizing:border-box;
+
+    
+    width: 2em;
+    /* Some space between the number and the content in browsers that support
+       generated content but not positioning it (Camino 2 is one example) */
+    margin-right: 8px;
+    padding: 8px 4px;
+
+    color: #fff;
+    background: #353535;
+
+    font-weight: bold;
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    text-align: center;
+
+    border: 1px solid black;
+    border-right: 0px;
+  }
+
+  .usersURLs__urls p { /* <p> */
+    display: block;
+    width: 100%;
+
+    text-align: left;
+    font-size: 1.2em;
+    color: #6c98ec;
+  }
+
+  .usersURLs__urls--shortURL  {
+    margin-bottom: 10px;
+  }
+
+  .usersURLs--shortURL, .usersURLs--longURL { /* <a> */
+    color: white;
+  }
+
+  .usersURLs__urls button { /* <button> */
+    position: absolute;
+      bottom: 0px;
+      left: 0px;
+    cursor: pointer;
+
+    height: 32px;
+    width: 100%;
+
+    background: url("./header-bg.png") repeat-x scroll 0px 0px transparent;
+    color: white;
+    border: 0px;
+    border-top: 1px solid black;
+  }
+      .usersURLs__urls button:after { /* <button> */
+        clear: both;
+      }
 /* ====================== Error Page ====================== */
 
 
+/* ====================== Media Queries ====================== */
 
 @media (max-width: 745px) {
 

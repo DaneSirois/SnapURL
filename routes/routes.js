@@ -43,16 +43,20 @@ module.exports = function(app) {
       logged_in: (userObj !== undefined)
     };
 
-    res.render("urls_new", templateVars);
+    res.render("index", templateVars);
   });
 
-  app.get("/user/urls", (req, res) => {
+  app.get("/user/urls", middleware.getUserByCookie, (req, res) => {
 
     const userId = req.session.userId || undefined;
     const usersURLs = database.users[userId];
-
+    const templateVars = {
+      usersURLs, 
+      logged_in: typeof userId !== 'undefined',
+      username: (userObj == undefined ? "" : req.body.userObj.username)
+    };
     if (userId !== undefined) {
-      res.render("urls_index", {usersURLs});
+      res.render("user_urls", templateVars);
     } else {
       res.redirect(301, '/');
     }
@@ -63,8 +67,6 @@ module.exports = function(app) {
     const userUndefined = userObj == undefined;
     const shortURL = req.params.shortURL;
 
-    console.log(userObj);
-    console.log(shortURL);
     let templateVars = {
       userURLs: (userUndefined ? "" : userObj.urls),
       username: (userUndefined ? "" : userObj.username),
@@ -98,14 +100,25 @@ module.exports = function(app) {
   });
 
   // Delete:
-  app.delete("/urls/:shortURL", (req, res) => {
-    if (database.urlDatabase.hasOwnProperty(req.params.shortURL)) {
-      delete database.urlDatabase[req.params.shortURL];
+  app.delete("/urls/:shortURL", middleware.getUserByCookie, (req, res) => {
+    const sharedURLs = database.urlDatabase;
+    const user = database.users[req.body.userId];
+
+    if (typeof user.urls.hasOwnProperty(req.params.shortURL) !== 'undefined') {
+      
+      delete user.urls[req.params.shortURL];
+      console.log("USER URLS");
+      console.log(`URL: ${req.params.shortURL} has been deleted from our database!`);
+    } else if (typeof sharedURLs.hasOwnProperty(req.params.shortURL) !== 'undefined') {
+      
+      delete sharedURLs[req.params.shortURL]
+      console.log("SHARED URLS");
       console.log(`URL: ${req.params.shortURL} has been deleted from our database!`);
     } else {
       console.log(`URL: ${req.params.shortURL} does not exist in our database.`);
     }
-    res.redirect(302, "/urls");
+    
+    res.redirect(302, "/user/urls");
   });
 
   app.get("/app/error", (req, res) => {

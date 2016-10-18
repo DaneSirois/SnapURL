@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include partials/head.ejs %>
+  <body>
+    <%- include partials/navbar.ejs %>
+    <main class="usersURLs__container">
+      <ol class="usersURLs__urls">
+      <% if (usersURLs) { %>
+        <% Object.keys(usersURLs.urls).forEach((url) => { %>
+          <form method="POST" action="/urls/<%= url %>?_method=DELETE">
+            <li>
+              <p class="usersURLs__urls--shortURL">Short URL: <a href="/urls/<%= url %>" class="usersURLs--shortURL">http://localhost:8080/<%= url %></a></p>
+              <p>Long URL: <a href="/<%= url %>" class="usersURLs--longURL"><%= usersURLs.urls[url] %></a></p>
+              <button name="Delete" type="submit">Delete</button>
+            </li>
+          </form>
+        <% }); %>
+       <% } %>
+      </ol>
+    </main>
+  </body>
+</html>
