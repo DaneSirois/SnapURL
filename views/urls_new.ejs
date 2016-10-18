@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include partials/head.ejs %>
+  <body>
+    <div class="site__container">
+
+    <%- include partials/navbar.ejs %>
+      
+      <% if (!logged_in) { %>
+        <div class="account-settings__container" id="account-settings__container">
+          <%- include partials/authentication.ejs %>
+        </div>
+      <% } %>
+
+      <div class="content__container <%= logged_in ? 'show__content' : 'show__content' %>" id="content__container">
+          <div class="mainPage__content__container">
+          <header class="mainPage__header__block">
+            <h1 class="mainPage__tagline"> Shorten your URL: </h1>
+          </header>
+          <div class="mainPage__form__block">
+            <form action="/new" method="POST">
+              <input class="mainPage__URL__input" id="longURL" type="text" name="longURL" placeholder="Enter a URL to shorten it:"> </input>
+              <input class="mainPage__URL__input__submit" type="submit" value="Submit"> </input>
+            </form>
+          </div>
+        </div>
+      
+      </div>
+
+      <%- include partials/footer.ejs %>
+
+    </div>
+    <script src="http://code.jquery.com/jquery-3.1.1.js" integrity="sha256-16cdPddA6VdVInumRGo6IbivbERE8p7CQR3HzTBuELA=" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="/scripts.js"></script>
+  </body>
+</html>

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+  <body>
+    <head>
+      <link rel="stylesheet" type="text/css" href="/normalize.css">
+      <link rel="stylesheet" type="text/css" href="/style.css">
+    </head>
+    <ul>
+    <% if (usersURLs) { %>
+      <% Object.keys(usersURLs.urls).forEach((url) => { %>
+        <form method="POST" action="/urls/<%= url %>?_method=DELETE">
+          <li><a href="/urls/<%= url %>"><%= url %></a></li>
+          <button name="Delete" type="submit">Delete</button>
+        </form>
+      <% }); %>
+     <% } %>
+    </ul>
+  </body>
+</html>

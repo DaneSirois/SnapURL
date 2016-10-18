@@ -1,0 +1,37 @@
+
+<div class="auth__header">
+  <ul>
+    <li class="auth__header__button auth__header__button--first">
+      <button id="login__tab__button" class="login__tab__button selected">Login</button>
+    </li>
+    <li class="auth__header__button">
+      <button id="signup__tab__button" class="login__tab__button">Sign Up</button>
+    </li>
+  </ul>
+</div>
+
+<% if (!logged_in) { %>
+  <div class="auth__login__container open" id="auth__login__form">
+    <form method="POST" action="/login">
+      <input name="email" placeholder="Enter your email:"></input>
+      <input name="password" placeholder="Enter a password:">
+      <button class="auth__submit__button" type="submit">Login</button>
+    </form>
+  </div>
+<% } else { %>
+  <div class="auth__logout__button__container">
+    <form method="POST" action="/logout">
+      <button class="auth__submit__button" type="submit">Logout</button>
+    </form>
+  </div>
+<% } %>
+
+
+<div class="auth__signup__container" id="auth__signup__form">
+  <form method="POST" action="/signup">
+    <input name="username" placeholder="Enter a username:">
+    <input name="email" placeholder="Enter a email:">
+    <input name="password" placeholder="Enter a password:">
+    <button class="auth__submit__button" type="submit">Sign Up</button>
+  </form>
+</div>

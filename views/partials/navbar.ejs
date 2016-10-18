@@ -1,0 +1,23 @@
+<nav class="navbar">
+  <ul class="navbar__main-nav__list"> 
+    <li class="navbar__nav__item"><a href="/">Home</a></li> 
+    <% if (logged_in) { %>
+    <li class="navbar__nav__item navbar__nav__item--userURLs"><a href="/user/urls">MyUrls</a></li>
+    <% } %>
+  </ul>
+  <p class="logo"><a href="/">Snap<span class="logo--blue">URL</span></a></p>
+  <ul class="navbar__secondary-nav__list">
+    <li class="navbar__nav__item--username"><a href="#"><%- include ./username.ejs %></a></li>
+    <% if (!logged_in) { %>
+
+      <li class="navbar__nav__item" id="login__button">Login</li>
+    
+    <% } else { %>
+      <li class="navbar__nav__item">
+        <form method="POST" action="/logout">
+          <button class="navbar__logout__button" type="submit">Logout</button>
+        </form>
+      </li>
+    <% } %>
+  </ul>
+</nav>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include partials/head.ejs %>
+  <body>
+    <div class="site__container">
+
+      <%- include partials/navbar.ejs %>
+
+      <% if (!logged_in) { %>
+        <div class="account-settings__container" id="account-settings__container">
+          <%- include partials/authentication.ejs %>
+        </div>
+      <% } %>
+
+      <div class="content__container <%= logged_in ? 'show__content' : 'show__content' %>" id="content__container">
+        <div class="URLInfo__content__container">
+
+          <div class="URLInfo__linkInfo__container">
+            <div class="URLInfo__linkInfo__shortURL">
+              <p class="URLInfo__shortURL__title">Snap <span class="URLInfo__shortURL__title--blue">URL:</span></p>
+            </div>
+
+            <div class="URLInfo__shortURL__input__container">
+              <input class="URLInfo__shortURL__input" id="shortURL" onclick="this.select();" type="text" value="localhost:8080/<%= shortURL %>"></input>
+              <button class="URLInfo__copyButton button" data-clipboard-target="#shortURL" id="copyButton">Copy</button>
+            </div>
+      
+            <div class="URLInfo__linkInfo__longURL">
+              <p class="URLInfo__longURL">Links to: <a href="http://<%= longURL %>"><%= longURL %></a></p>
+            </div>
+          </div>
+          
+        <% if (userURLs[shortURL]) { %>
+          <div class="URLInfo__update__container">
+            <div class="URLInfo__update__toggleButton__container">
+              <button class="URLInfo__update__toggleButton" id="URLInfo__update__form__button">Update Destination:</button>
+            </div>
+
+            <div class="URLInfo__update__form__container" id="URLInfo__update__form__container">
+              <form method="POST" action="/urls/<%= shortURL %>?_method=PUT">
+                <input class="URLInfo__update__input" type="text" name="newURL" placeholder="Update your destination's URL:"></input>
+                <button class="URLInfo__update__submit" type="submit" name="submit">Submit</button>
+              </form>
+            </div>
+          </div>
+        <% } %>
+
+        </div>
+      
+      </div>
+
+      <%- include partials/footer.ejs %>
+
+    </div>
+    <script src="http://code.jquery.com/jquery-3.1.1.js" integrity="sha256-16cdPddA6VdVInumRGo6IbivbERE8p7CQR3HzTBuELA=" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="/scripts.js"></script>
+    <script src="https://cdn.jsdelivr.net/clipboard.js/1.5.12/clipboard.min.js"></script>
+    <script> new Clipboard('.button'); </script>
+  </body>
+</html>

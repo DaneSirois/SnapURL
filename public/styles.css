@@ -1,0 +1,521 @@
+*, *:before, *:after {
+  box-sizing: border-box;
+}
+
+p {
+  margin: 0px auto;
+}
+
+ul {
+  display: block;
+  list-style: none;
+  margin: 0px;
+  padding: 0px;
+}
+
+body {
+  background-color: #2d2d2d;
+  font-family: helvetica;
+  margin: 0px auto;
+  text-align: center;
+}
+
+input:focus {
+  outline: none;
+}
+
+button:focus {
+  outline: none;
+}
+
+.open {
+  display: block !important;
+}
+
+.closed {
+  display: none !important;
+}
+
+.show__content {
+  right: 0px !important;
+}
+
+.selected {
+  background: initial !important;
+  background-color: #2a2a2a !important;
+  color: white;
+}
+
+/* ====================== Shared ====================== */
+  
+  .site__container { /* <div> */
+    position: relative;
+    height: 100vh;
+    width: 100%;
+  }
+
+  .content__container {
+    position: fixed;
+      top: 42px;
+      bottom: 42px;
+      right: 400px;
+      left: 0px;
+  }
+
+  .content__container::after {
+    z-index: -1;
+    position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+    content: "";
+    background: url(./city3.jpg);
+    background-position: top;
+    opacity: 0.5;   
+  }
+
+  .account-settings__container {
+    display: none;
+    position: fixed;
+      top: 42px;
+      bottom: 42px;
+      right: 0px;
+    
+    background-color: #363636;
+    max-width: 400px;
+    width: 100%;
+
+    border-left: 1px solid black;
+  }
+
+  .navbar { /* <nav> */
+    position: fixed;
+      top: 0px;
+      right: 0px;
+      left: 0px;
+
+    height: 42px;
+
+    background-color: #424242;
+    background: url("./header-bg.png") repeat-x scroll 0px 0px transparent;
+    margin: 0px auto;
+
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+  }
+
+      .navbar__main-nav__list, .navbar__secondary-nav__list { /* <ul> */
+        position: absolute;
+          top: 0px;
+
+        z-index: 999;
+        float: left;
+        padding: 0px;
+      }
+
+      .navbar__main-nav__list {
+        left: 0px;
+      }
+      .navbar__secondary-nav__list { /* <ul> */
+        right: 0px;
+      }
+
+      .navbar__nav__item, .navbar__nav__item--username { /* <li> */
+        cursor: pointer;
+        float: left;
+        
+        padding: 12px 12px;
+        height: 40px;
+
+        color: white;
+        background-color: #2a2a2a;
+        background: url("./header-bg.png") repeat-x scroll 0px 0px transparent;
+        
+        border-left: 1px solid black;
+        border-right: 1px solid black;
+        border-bottom: 0px solid black;
+      } 
+
+      .navbar__nav__item a {
+        text-decoration: none;
+        color: white;
+      }
+
+      .navbar__nav__item--userURLs {
+        border-right: 0px;
+        background: none;
+      }
+
+      #login__button {
+        border-right: 0px;
+      }
+
+      .navbar__nav__item--username { /* <li> */
+        background-color: transparent;
+        border: 0px;
+      }
+
+      .navbar__nav__item--username a {
+        text-decoration: none;
+        color: white;
+      }
+
+      .navbar__logout__button { /* <button> */ 
+
+        padding: 0px;
+        color: white;
+        background-color: transparent;
+        cursor: pointer;
+        border: 0px;
+      }
+
+      .logo {
+        position: absolute;
+          top: 0px;
+          right: 0px;
+          left: 0px;
+
+        margin: 9px 0px;
+        font-size: 1.2em;
+        color: white;
+      }
+
+      .logo a {
+        text-decoration: none;
+        color: white;
+      }
+
+      .logo--blue {
+        color: #80a7f3;
+      }
+
+  .footerbar { /* <footer> */
+    position: absolute;
+      bottom: 0px;
+
+    height: 42px;
+    width: 100%;
+
+    padding: 10px;
+
+    background-color: #2a2a2a;
+    background: url("./header-bg.png") repeat-x scroll 0px 0px transparent;
+    border-top: 1px solid #80a7f3;
+    border-bottom: 1px solid black;
+  }
+
+      .footerbar__signature { /* <p> */
+
+        margin: 0px auto;
+
+        color: #80a7f3;
+        font-size: 1.1em;
+      } 
+
+          .footerbar__signature a { /* <a> */
+            color: white;
+          }
+          .foterbar__signature--blue {
+            color: #80a7f3;
+          }
+
+
+  .auth__header { /* <div> */ 
+
+    height: 42px;
+    width: 100%;
+
+    background-color: #2a2a2a;
+
+    border-bottom: 1px solid black;
+  }
+
+  .auth__header__button { /* <li> */ 
+    position: relative;
+    height: 42px;
+    width: 50%;
+    float: left;
+    border-bottom: 1px solid black
+  }
+      .auth__header__button--first { /* <li> */ 
+        border-right: 1px solid black;
+      }
+
+  .auth__header__button--text a { /* <a> */ 
+    display: block;
+    height: 100%;
+    width: 100%;
+    color: white;
+    text-decoration: none;
+  }
+
+
+  .login__tab__button, .signup__tab__button { /* <button> */
+
+    cursor: pointer;
+
+    height: 100%;
+    width: 100%;
+    background: url("./header-bg.png") repeat-x scroll 0px 0px transparent;
+    color: white;
+    padding: 0px;
+    border: none;
+  }
+
+
+  .auth__login__container, .auth__signup__container { /* <div> */ 
+    position: absolute;
+      top: 42px;
+      right: 0px;
+      bottom: 0px;
+      left: 0px;
+    display: none;
+    padding: 145px 16px;
+  }
+
+  .auth__login__container input, .auth__signup__container input { /* <input> */
+    display: block;
+
+    height: 32px;
+    width: 100%;
+
+    margin-bottom: 6px;
+    padding: 0px 10px;
+
+    border-radius: 4px;
+    border: 1px solid black;
+  }
+  
+
+  .auth__submit__button { /* <button> */
+    position: absolute;
+      bottom: 0px;
+      right: 0px;
+      left: 0px;
+    cursor: pointer;
+
+    height: 45px;
+    width: 100%;
+
+    margin: 0px;
+    padding: 0px;
+
+    color: white;
+    background-color: #2a2a2a;
+    background: url("./header-bg.png") repeat-x scroll 0px 0px transparent;
+
+    border: 0px;
+    border-top: 1px solid black;
+  }
+
+/* ====================== Main Page ====================== */
+  
+  /* =============== Layout =============== */
+
+  .mainPage__content__container { /* <div> */
+    position: absolute;
+      top: 45%;
+      left: 50%;
+    transform: translate(-50%, -45%);
+
+    height: auto;
+    padding: 0px 15px;
+    max-width: 520px;
+    width: 100%;
+  }
+
+  .mainPage__header__block { /* <header> */
+    padding: 8px 0px;
+  }
+
+  .mainPage__form__block { /* <div> */
+    position: relative;
+    margin: 10px auto;
+  }
+
+  .mainPage__tagline { /* <h1> */
+    font-size: 3em;
+    color: #6c98ec;
+    margin: 0px auto;
+  }
+
+  .mainPage__URL__input { /* <input> */
+    height: 40px;
+    width: 100%;
+
+    padding-right: 70px;
+    padding-left: 10px;
+
+    border-radius: 3px;
+    border: 2px solid black;
+  }
+
+  .mainPage__URL__input__submit { /* <button> */
+    position: absolute;
+      top: 0px;
+      right: 0px;
+    
+    height: 100%;
+    width: 70px;
+
+    background-color: white;
+
+    border-radius: 0px 3px 3px 0px;
+    border: 2px solid black;
+    border-left: 1px solid black;
+  }
+
+/* ====================== URLInfo Page ====================== */
+
+  .URLInfo__content__container { /* <div> */
+    position: absolute;
+      top: 45%;
+      left: 50%;
+    transform: translate(-50%, -45%);
+
+    height: auto;
+    max-width: 500px;
+    width: 100%;
+  }
+
+  .URLInfo__linkInfo__container { /* <div> */ 
+    position: relative;
+  }
+
+  .URLInfo__linkInfo__shortURL, .URLInfo__shortURL__input__container, .URLInfo__linkInfo__longURL { /* <div> */
+    position: relative;
+    width: 100%;
+  }
+
+  .URLInfo__shortURL__title { /* <p> */
+    text-align: left;
+    color: white;
+    font-size: 1.2em;
+    margin-bottom: 15px;
+  }
+
+      .URLInfo__shortURL__title--blue { /* <span> */
+        color: #6c98ec;
+      }
+
+  .URLInfo__shortURL__input { /* <input> */
+    height: 36px;
+    width: 100%;
+
+    padding: 0px 10px;
+    padding-right: 60px;
+
+    border: 1px solid black;
+  }
+
+      .URLInfo__copyButton { /* <div> */
+        position: absolute;
+          top: 0px;
+          right: 1px;
+        margin: 0px auto;
+        margin-top: 1px;
+
+        height: 34px;
+        width: 60px;
+
+        color: white;
+        background-color: #424242;
+
+        border: 0px;
+        border-left: 2px solid black;
+      }
+
+  .URLInfo__linkInfo__longURL {
+    margin-top: 15px;
+  }
+
+  .URLInfo__longURL { /* <p> */
+    color: white;
+    font-size: 1.2em;
+    text-align: left;
+    margin-bottom: 20px;
+  }
+
+      .URLInfo__longURL a { /* <a> */
+        color: #6c98ec;
+        font-size: 1em;
+        margin-left: 5px;
+      }
+
+
+  .URLInfo__update__container { /* <div> */
+    position: relative;
+    margin: 0px;
+
+    width: 100%;
+  }
+
+  .URLInfo__update__form__container { /* <div> */ 
+
+    display: none;
+    position: absolute;
+    bottom: 0px;
+    margin: 0px;
+
+    width: 100%;
+  }
+      .URLInfo__update__input { /* <input> */
+        height: 36px;
+        width: 100%;
+
+        padding: 0px 10px;
+        padding-right: 70px;
+
+        border: 1px solid black;
+    
+      }
+
+      .URLInfo__update__submit { /* <submit> */
+        position: absolute;
+          top: 0px;
+          right: 1px;
+
+        color: white;
+        background-color: #2a2a2a;
+        background: url("./header-bg.png") repeat-x scroll 0px 0px transparent;
+        height: 35px;
+        width: 70px;
+
+        border: 1px solid black;
+        border-bottom: 0px;
+        border-right: 0px;
+        border-left: 2px;
+      }
+
+    .URLInfo__update__toggleButton__container { /* <div> */
+      padding-bottom: 35px;
+    }
+
+    .URLInfo__update__toggleButton { /* <button> */ 
+      cursor: pointer;
+
+      height: 34px;
+      width: 100%;
+
+      color: white;
+      background-color: #2a2a2a;
+      background: url("./header-bg.png") repeat-x scroll 0px 0px transparent;
+
+      border: 1px solid black;
+    }
+
+/* ====================== Error Page ====================== */
+
+
+
+@media (max-width: 745px) {
+
+  .account-settings__container {
+    z-index: 999;
+    max-width: 100%;
+  }
+
+}
+
+
