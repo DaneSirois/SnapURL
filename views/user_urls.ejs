@@ -5,12 +5,12 @@
     <%- include partials/navbar.ejs %>
     <main class="usersURLs__container">
       <ol class="usersURLs__urls">
-      <% if (usersURLs) { %>
-        <% Object.keys(usersURLs.urls).forEach((url) => { %>
-          <form method="POST" action="/urls/<%= url %>?_method=DELETE">
+      <% if (usersURLs.length > 0) { %>
+        <% usersURLs.forEach((url) => { %>
+          <form method="POST" action="/urls/<%= url.shortURL %>?_method=DELETE">
             <li>
-              <p class="usersURLs__urls--shortURL">Short URL: <a href="/urls/<%= url %>" class="usersURLs--shortURL">http://localhost:8080/<%= url %></a></p>
-              <p>Long URL: <a href="/<%= url %>" class="usersURLs--longURL"><%= usersURLs.urls[url] %></a></p>
+              <p class="usersURLs__urls--shortURL">Short URL: <a href="/urls/<%= url.shortURL %>" class="usersURLs--shortURL">http://localhost:8080/<%= url.shortURL %></a></p>
+              <p>Long URL: <a href="/<%= url %>" class="usersURLs--longURL"><%= url.longURL %></a></p>
               <button name="Delete" type="submit">Delete</button>
             </li>
           </form>

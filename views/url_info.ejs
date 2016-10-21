@@ -12,7 +12,7 @@
         </div>
       <% } %>
 
-      <div class="content__container <%= logged_in ? 'show__content' : 'show__content' %>" id="content__container">
+      <div class="content__container show__content" id="content__container">
         <div class="URLInfo__content__container">
 
           <div class="URLInfo__linkInfo__container">
@@ -21,7 +21,7 @@
             </div>
 
             <div class="URLInfo__shortURL__input__container">
-              <input class="URLInfo__shortURL__input" id="shortURL" onclick="this.select();" type="text" value="localhost:8080/<%= shortURL %>"></input>
+              <input class="URLInfo__shortURL__input" id="shortURL" onclick="this.select();" type="text" value="localhost:8080/u/<%= shortURL %>"></input>
               <button class="URLInfo__copyButton button" data-clipboard-target="#shortURL" id="copyButton">Copy</button>
             </div>
       
@@ -30,7 +30,7 @@
             </div>
           </div>
           
-        <% if (userURLs[shortURL]) { %>
+        <% if (usersURLs !== 'undefined') { %>
           <div class="URLInfo__update__container">
             <div class="URLInfo__update__toggleButton__container">
               <button class="URLInfo__update__toggleButton" id="URLInfo__update__form__button">Update Destination:</button>

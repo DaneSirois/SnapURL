@@ -10,6 +10,21 @@ const getUserByEmail = function (email) {
   return answer;
 }
 
+const getUsersUrlsById = function (userId) {
+  const usersURLs = [];
+
+  if (userId) {
+    for (let key in database.urls) {
+      if (database.urls[key].userId === userId) {
+        usersURLs.push(database.urls[key]);
+      }
+    }
+  }
+  
+  return usersURLs;
+};
+
 module.exports = {
-  getUserByEmail
+  getUserByEmail,
+  getUsersUrlsById
 };

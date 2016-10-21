@@ -26,17 +26,14 @@ const checkInputForProtocol = function (req, res, next) {
 };
 
 const addShortURLToDatabase = function (req, res, next) {
-  const userId = req.session['userId'];
+  const userId = req.body.userObj && req.body.userObj.id;
   const shortURL = req.body['randomStr'];
   const longURL = req.body['longURL'];
-  console.log("USER ID:");
-  console.log(userId);
-  console.log("USERS DATABASE:")
-  console.log(database.users[userId]);
-  if (userId !== undefined) {
-    database.users[userId].urls[shortURL] = longURL;
+
+  if (typeof userId != 'undefined') {
+    database.urls[shortURL] = {shortURL, longURL, userId}
   } else {
-    database.urlDatabase[shortURL] = longURL;
+    database.urls[shortURL] = {shortURL, longURL, userId: undefined};
   }
   
   next();
@@ -47,7 +44,7 @@ const createUser = function (req, res, next) {
   const email = req.body.email;
   const password = req.body.password;
   const hashed_password = bcrypt.hashSync(password, 10);
-  const userObj = {id: req.body.randomStr, username, email, hashed_password, urls: {}};
+  const userObj = {id: req.body.randomStr, username, email, hashed_password};
   let userExists;
 
   for (userId in database.users) {
@@ -80,14 +77,12 @@ const verifyUser = function (req, res, next) {
 
   const userObj = utilities.getUserByEmail(email);
 
-  if ((userObj != null) && (userObj != undefined)) {
+  if ((userObj != null) && (typeof userObj != 'undefined')) {
     let hashed_password = userObj.hashed_password;
-    console.log(userObj);
     bcrypt.compareSync(passwordInput, hashed_password) ? req.body['verifiedUser'] = userObj : req.body['verifiedUser'] = null;
   }
   next();
 };
-
 
 module.exports = {
   checkInputForProtocol,

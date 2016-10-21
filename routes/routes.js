@@ -2,12 +2,13 @@
 const methodOverride = require('method-override');
 const database = require('../database.js').database;
 const middleware = require('../middleware.js');
+const utilities = require('../utilities.js');
 const cookieSession = require('cookie-session');
 
 module.exports = function(app) {
-  // Create:
   
-  app.post("/new", middleware.checkInputForProtocol, middleware.generateRandomString, middleware.addShortURLToDatabase, (req, res) => {
+  // Create:
+  app.post("/new", middleware.getUserByCookie, middleware.checkInputForProtocol, middleware.generateRandomString, middleware.addShortURLToDatabase, (req, res) => {
     // Create shortURL and redirect to URL info page:
 
     res.redirect(302, `/urls/${req.body.randomStr}`);         
@@ -16,7 +17,7 @@ module.exports = function(app) {
   app.post("/login", middleware.verifyUser, (req, res) => {
     const verifiedUser = req.body.verifiedUser;
 
-    if ((verifiedUser != null) && (verifiedUser != undefined)) {
+    if ((verifiedUser != null) && (typeof verifiedUser != 'undefined')) {
       req.session.userId = verifiedUser.id;
       res.redirect(301, "/");
     } else {
@@ -37,56 +38,57 @@ module.exports = function(app) {
 
   app.get("/", middleware.getUserByCookie, (req, res) => {
     const userObj = req.body.userObj;
+    const userUndefined = typeof userObj == 'undefined';
 
     let templateVars = {
-      username: (userObj == undefined ? "" : userObj.username),
-      logged_in: (userObj !== undefined)
+      username: (userUndefined ? "" : userObj.username),
+      logged_in: (!userUndefined)
     };
 
     res.render("index", templateVars);
   });
 
   app.get("/user/urls", middleware.getUserByCookie, (req, res) => {
-
-    const userId = req.session.userId || undefined;
-    const usersURLs = database.users[userId];
+    const userObj = req.body.userObj;
+    const userId = req.body.userObj && req.body.userObj.id;
+    const userUndefined = (typeof userObj == 'undefined');
+    const usersURLs = userUndefined ? 'undefined' : utilities.getUsersUrlsById(userId);
     const templateVars = {
       usersURLs, 
-      logged_in: typeof userId !== 'undefined',
-      username: (userObj == undefined ? "" : req.body.userObj.username)
+      logged_in: !userUndefined,
+      username: (userUndefined ? "" : req.body.userObj.username)
     };
-    if (userId !== undefined) {
+    
+    if (!userUndefined) {
       res.render("user_urls", templateVars);
     } else {
-      res.redirect(301, '/');
+      res.redirect(302, '/');
     }
   });
 
   app.get("/urls/:shortURL", middleware.getUserByCookie, (req, res) => {
     const userObj = req.body.userObj;
-    const userUndefined = userObj == undefined;
+    const userUndefined = (typeof userObj == 'undefined');
     const shortURL = req.params.shortURL;
+    const usersURLs = userUndefined ? 'undefined' : utilities.getUsersUrlsById(userObj.userId);
 
     let templateVars = {
-      userURLs: (userUndefined ? "" : userObj.urls),
       username: (userUndefined ? "" : userObj.username),
-      logged_in: (userObj !== undefined),
+      logged_in: (!userUndefined),
       shortURL: req.params.shortURL,
-      longURL: userUndefined ? database.urlDatabase[shortURL] : userObj.urls[shortURL]
+      longURL: database.urls[shortURL].longURL,
+      usersURLs: usersURLs
     };
 
     res.render("url_info", templateVars);
   });
 
-  app.get("/:shortURL", (req, res) => {
+  app.get("/u/:shortURL", (req, res) => {
     // Redirect to longURL
     const shortURL = req.params.shortURL;
-    const longURL = database.urlDatabase[shortURL] || "/app/error/";
-    res.redirect(301, longURL);
-  });
 
-  app.get("/urls.json", (req, res) => {
-    res.json(database.urlDatabase);
+    const longURL = database.urls[shortURL].longURL || "/app/error/";
+    res.redirect(301, longURL);
   });
 
   // Update:
@@ -94,30 +96,24 @@ module.exports = function(app) {
   app.put("/urls/:shortURL", (req, res) => {
     const shortURL = req.params.shortURL;
 
-    database.urlDatabase[shortURL] = req.body.newURL;
+    database.urls[shortURL].longURL = req.body.newURL;
     console.log(`Updated URL to: ${req.body.newURL}`);
     res.redirect(302, `/urls/${shortURL}`);
   });
 
   // Delete:
   app.delete("/urls/:shortURL", middleware.getUserByCookie, (req, res) => {
-    const sharedURLs = database.urlDatabase;
-    const user = database.users[req.body.userId];
+    const urls = database.urls;
+    const userObj = req.body.userObj;
+    const shortURL = req.params.shortURL;
 
-    if (typeof user.urls.hasOwnProperty(req.params.shortURL) !== 'undefined') {
-      
-      delete user.urls[req.params.shortURL];
-      console.log("USER URLS");
-      console.log(`URL: ${req.params.shortURL} has been deleted from our database!`);
-    } else if (typeof sharedURLs.hasOwnProperty(req.params.shortURL) !== 'undefined') {
-      
-      delete sharedURLs[req.params.shortURL]
-      console.log("SHARED URLS");
-      console.log(`URL: ${req.params.shortURL} has been deleted from our database!`);
+    if (urls[shortURL].userId === userObj.id) {
+      delete urls[shortURL];
+      console.log(`URL: ${shortURL} has been deleted from our database!`);
     } else {
-      console.log(`URL: ${req.params.shortURL} does not exist in our database.`);
+      console.log(`URL: ${shortURL} does not exist in our database.`);
     }
-    
+
     res.redirect(302, "/user/urls");
   });
 
