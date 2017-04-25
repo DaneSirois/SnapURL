@@ -8,9 +8,12 @@ const cookieSession = require('cookie-session');
 module.exports = function(app) {
   
   // Create:
-  app.post("/new", middleware.getUserByCookie, middleware.checkInputForProtocol, middleware.generateRandomString, middleware.addShortURLToDatabase, (req, res) => {
-    // Create shortURL and redirect to URL info page:
-
+  app.post("/new", 
+    middleware.getUserByCookie, 
+    middleware.checkInputForProtocol, 
+    middleware.generateRandomString, 
+    middleware.addShortURLToDatabase, 
+  (req, res) => { // Create shortURL and redirect to URL info page:
     res.redirect(302, `/urls/${req.body.randomStr}`);         
   });
 
@@ -32,7 +35,10 @@ module.exports = function(app) {
     res.redirect('/');
   });
 
-  app.post("/signup", middleware.generateRandomString, middleware.createUser, (req, res) => {
+  app.post("/signup", 
+    middleware.generateRandomString, 
+    middleware.createUser, 
+  (req, res) => {
     req.body.userCreated ? res.redirect("/") : res.status(404).send('User already exists!');
   });
 
